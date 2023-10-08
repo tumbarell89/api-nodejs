@@ -1,7 +1,11 @@
-import express from "express";
+import express, { urlencoded } from "express";
+import rutas from './routes/rutas';
+
 const app = express();
 
-import rutas from './routes/index';
+app.use(express.json());
+app.use(urlencoded({extended: false}));
+  
 app.use(rutas);
 
 app.listen(3000);
