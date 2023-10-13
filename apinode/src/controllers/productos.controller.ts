@@ -5,7 +5,7 @@ import { QueryResult } from "pg";
 
 export const getProductos = async( req: Request, resp : Response):Promise<Response>=>{
     try {
-        const listaproductos: QueryResult = await con.query('Select * from producto');
+        const listaproductos: QueryResult = await con.query('SELECT id_producto, \"CODIGO\", \"DESCRIPCION\", \"UM\", \"CANT\", \"PRECIOEUR\", \"VALOREUR\" FROM public.producto');
         return resp.status(200).json(listaproductos.rows);
     } catch (error) {
         console.log(error);
@@ -25,7 +25,7 @@ export const addProductos = async( req: Request, resp : Response):Promise<Respon
         return resp.json({message : 'producto adicionado'});
     } catch (error) {
         console.log(error);
-        return resp.send('error'+error);
+        return resp.status(500).send('error'+error);
     }
     
 }

@@ -13,7 +13,7 @@ exports.addProductos = exports.getProductos = void 0;
 const database_1 = require("../database");
 const getProductos = (req, resp) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const listaproductos = yield database_1.con.query('Select * from producto');
+        const listaproductos = yield database_1.con.query('SELECT id_producto, \"CODIGO\", \"DESCRIPCION\", \"UM\", \"CANT\", \"PRECIOEUR\", \"VALOREUR\" FROM public.producto');
         return resp.status(200).json(listaproductos.rows);
     }
     catch (error) {
@@ -32,7 +32,7 @@ const addProductos = (req, resp) => __awaiter(void 0, void 0, void 0, function* 
     }
     catch (error) {
         console.log(error);
-        return resp.send('error' + error);
+        return resp.status(500).send('error' + error);
     }
 });
 exports.addProductos = addProductos;
