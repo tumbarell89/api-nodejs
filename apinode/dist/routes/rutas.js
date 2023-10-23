@@ -2,8 +2,43 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const productos_controller_1 = require("../controllers/productos.controller");
+const apiuser_controller_1 = require("../controllers/apiuser.controller");
 const rutas = (0, express_1.Router)();
 rutas.get('/prueba', (req, res) => res.send('el gato volador'));
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      userapi:
+ *          type: object
+ *          properties:
+ *              idusuario:
+ *                  type: integer
+ *              userapi:
+ *                  type: string
+ *                  description: codigo del producto
+ *              contrasenna:
+ *                  type: string
+ *                  description: contraseña de conexion de user api
+ *              bdconnection:
+ *                  type: string
+ *                  description: bd de conexion del user api
+ *              userbd:
+ *                  type: string
+ *                  description: user de conexion bd de user api
+ *              contrasennabd:
+ *                  type: string
+ *                  description: contraseña de conexion  de bd de user api
+ *          required:
+ *              - userapi
+ *              - contrasenna
+ *          example:
+ *              userapi: pedro
+ *              contrasenna: fsdsfs
+ *              bdconnection: 127.0.0.1
+ *              userbd: postgres
+ *              contrasennabd: postgres
+ */
 /**
  * @swagger
  * components:
@@ -50,6 +85,12 @@ rutas.get('/prueba', (req, res) => res.send('el gato volador'));
 /**
  * @swagger
  * tags:
+ *  name: User Api
+ *  description: Grupo de peticiones de loggin a la api
+ */
+/**
+ * @swagger
+ * tags:
  *  name: Get Productos
  *  description: Grupo de peticiones get
  */
@@ -59,6 +100,108 @@ rutas.get('/prueba', (req, res) => res.send('el gato volador'));
  *  name: Post Productos
  *  description: Grupo de peticiones post
  */
+/**
+ * @swagger
+ * /loggin:
+ *  post:
+ *      summary: Hacer loggin en la api
+ *      tags: [User Api]
+ *      responses:
+ *          200:
+ *              description: Acceso a la api, devuelve el token de conexion mas la fecha de vencimiento
+ *              content:
+ *                  application/json:
+ *                      schemas:
+ *                          type: object
+ *                          properties:
+ *                              userapi:
+ *                                  type: string
+ *                                  description: codigo del producto
+ *                              contrasenna:
+ *                                  type: string
+ *                                  description: contraseña de conexion de user api
+ *                          required:
+ *                              - userapi
+ *                              - contrasenna
+ *                          example:
+ *                              userapi: pedro
+ *                              contrasenna: fsdsfs
+ *          400:
+ *              description: Existe un campo obligatorio no enviado
+ *          500:
+ *              description: Error en la accion contacte al administrador
+ */
+rutas.post('/loggin', apiuser_controller_1.loggin);
+/**
+ * @swagger
+ * /loggout:
+ *  post:
+ *      summary: Hacer loggin en la api
+ *      tags: [User Api]
+ *      responses:
+ *          200:
+ *              description: Desconectar de la api
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/userapi'
+ */
+rutas.post('/loggout', apiuser_controller_1.loggout);
+/**
+ * @swagger
+ * /register:
+ *  post:
+ *      summary: Hacer loggin en la api
+ *      tags: [User Api]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: Object
+ *                      properties:
+ *                          userapi:
+ *                              type: string
+ *                              description: codigo del producto
+ *                          contrasenna:
+ *                              type: string
+ *                              description: contraseña de conexion de user api
+ *                      required:
+ *                          - userapi
+ *                          - contrasenna
+ *                      example:
+ *                          userapi: pedro
+ *                          contrasenna: fsdsfs
+ *      responses:
+ *          200:
+ *              description: Registrar user de la api para conexion, devuelve token de acceso y fecha de vencimiento
+ *              content:
+ *                  application/json:
+ *                      schemas:
+ *                          type: array
+ *                          items:
+ *                              type: Object
+ *                              properties:
+ *                                  userapi:
+ *                                      type: string
+ *                                      description: codigo del producto
+ *                                  contrasenna:
+ *                                      type: string
+ *                                      description: contraseña de conexion de user api
+ *                              required:
+ *                                  - userapi
+ *                                  - contrasenna
+ *                              example:
+ *                                  userapi: pedro
+ *                                  contrasenna: fsdsfs
+ *          400:
+ *              description: Existe un campo obligatorio no enviado
+ *          500:
+ *              description: Error en la accion contacte al administrador
+ */
+rutas.post('/register', apiuser_controller_1.register);
 /**
  * @swagger
  * /productos:
