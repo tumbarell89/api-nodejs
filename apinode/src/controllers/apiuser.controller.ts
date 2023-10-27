@@ -23,13 +23,9 @@ export const loggout = (req:Request, res:Response)=>{
 
 export const register = async (req:Request, res:Response): Promise<Response> =>{
     if(!req.body.userapi || !req.body.contrasenna) return res.status(400).send({message: "El nombre de usuario y la contraseña son campos obligatorio"});
-    console.log(req.body);
     try {
         const apiuser: Apiuser = req.body; 
-        console.log(apiuser);
         const apiuserrepository =  await UserApiIRepository.nuevousuario(apiuser);
-        console.log('sdfdf');
-        console.log(apiuserrepository);
         return res.status(200).json({"jwebtoken":apiuserrepository.jwebtoken, "fecha vencimiento": apiuserrepository.fechavencimiento});
     } catch (error) {
         return res.send('error'+error);

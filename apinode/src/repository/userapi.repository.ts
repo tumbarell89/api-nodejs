@@ -10,6 +10,7 @@ interface IApiuserRepository {
 class UserApiIRepository implements IApiuserRepository{
     
     async nuevousuario(apiuser: Apiuser): Promise<Apiuser> {
+        var diadehoy: Date = new Date();
         let token = jwt.sign({user: apiuser.userapi, fecha: new Date()}, 'webToken');
         console.log(token);
         try {
@@ -27,7 +28,7 @@ class UserApiIRepository implements IApiuserRepository{
     }
     async eliminarusuario(apiuserid: Number): Promise<Number> {
         try {
-            const filaeliminada = await Apiuser.destroy({ where: {idusuario: apiuserid}});
+            const filaeliminada = await Apiuser.destroy({ where: {userapi: userapi}});
             return filaeliminada;
         } catch (error) {
             throw new Error(""+error);
