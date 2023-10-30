@@ -1,5 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import Apiuser from "./models/apiuser";
+import dotenv from "dotenv";
+dotenv.config();
 
 class Database {
   public sequelize: Sequelize | undefined;

@@ -102,10 +102,24 @@ rutas.get('/prueba', (req, res) => res.send('el gato volador'));
  */
 /**
  * @swagger
- * /loggin:
+ * /actualizarusuario:
  *  post:
- *      summary: Hacer loggin en la api
+ *      summary: Actualizar fecha de vencimiento y token de un usuario
  *      tags: [User Api]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: Object
+ *                      properties:
+ *                          userapi:
+ *                              type: string
+ *                              description: codigo del producto
+ *                      required:
+ *                          - userapi
+ *                      example:
+ *                          userapi: pedro
  *      responses:
  *          200:
  *              description: Acceso a la api, devuelve el token de conexion mas la fecha de vencimiento
@@ -128,8 +142,27 @@ rutas.get('/prueba', (req, res) => res.send('el gato volador'));
  *                              contrasenna: fsdsfs
  *          400:
  *              description: Existe un campo obligatorio no enviado
+ *          401:
+ *              description: El usuario no existe
  *          500:
  *              description: Error en la accion contacte al administrador
+ */
+rutas.post('/actualizarusuario', apiuser_controller_1.actualizarusuario);
+/**
+ * @swagger
+ * /loggout:
+ *  post:
+ *      summary: Hacer loggin en la api
+ *      tags: [User Api]
+ *      responses:
+ *          200:
+ *              description: Desconectar de la api
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                          items:
+ *                              $ref: '#/components/schemas/userapi'
  */
 rutas.post('/loggin', apiuser_controller_1.loggin);
 /**
@@ -198,6 +231,8 @@ rutas.post('/loggout', apiuser_controller_1.loggout);
  *                                  contrasenna: fsdsfs
  *          400:
  *              description: Existe un campo obligatorio no enviado
+ *          401:
+ *              description: El usuario que intenta insertar ya existe
  *          500:
  *              description: Error en la accion contacte al administrador
  */

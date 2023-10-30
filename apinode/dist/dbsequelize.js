@@ -14,6 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
 const apiuser_1 = __importDefault(require("./models/apiuser"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 class Database {
     constructor() {
         this.connectToDatabase();

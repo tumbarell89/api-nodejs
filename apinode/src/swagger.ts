@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 export const opciones = {
     swagger: "2.0",
     definition: {
@@ -9,7 +11,7 @@ export const opciones = {
         },
         servers: [
             {
-                url: "http://localhost:3000/"
+                url: "http://localhost:"+process.env.PORT+"/"
             }          
         ]
     },

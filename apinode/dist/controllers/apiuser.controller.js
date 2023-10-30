@@ -12,20 +12,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = exports.loggout = exports.loggin = void 0;
+exports.register = exports.loggout = exports.loggin = exports.actualizarusuario = void 0;
+const apiuser_1 = __importDefault(require("../models/apiuser"));
 const userapi_repository_1 = __importDefault(require("../repository/userapi.repository"));
-const loggin = (req, res) => {
-    if (!req.body.userapi || !req.body.contrasenna)
-        res.status(400).send({ message: "El nombre de usuario y la contraseña son campos obligatorio" });
-    return;
+const actualizarusuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!req.body.userapi)
+        return res.status(400).send({ message: "El nombre de usuario es obligatorio" });
     try {
         const apiuser = req.body;
-        const apiuserrepository = userapi_repository_1.default.actualizarusuario(apiuser);
-        res.status(200).send(apiuserrepository);
+        const apiuserrepository = yield userapi_repository_1.default.actualizarusuario(apiuser);
+        if (apiuserrepository)
+            return res.status(200).json({ "jwebtoken": apiuserrepository.jwebtoken, "fecha vencimiento": apiuserrepository.fechavencimiento });
+        else
+            return res.status(400).json({ mensage: 'Usuario no encontrado' });
     }
     catch (error) {
+        return res.status(500).send(('Error: ' + error));
     }
-};
+});
+exports.actualizarusuario = actualizarusuario;
+const loggin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res;
+});
 exports.loggin = loggin;
 const loggout = (req, res) => {
 };
@@ -33,17 +41,17 @@ exports.loggout = loggout;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.body.userapi || !req.body.contrasenna)
         return res.status(400).send({ message: "El nombre de usuario y la contraseña son campos obligatorio" });
-    console.log(req.body);
+    const user = yield apiuser_1.default.findOne({ where: { userapi: req.body.userapi } });
+    console.log(user);
+    if (user)
+        return res.status(401).send({ message: 'El usuario ya existe' });
     try {
         const apiuser = req.body;
-        console.log(apiuser);
         const apiuserrepository = yield userapi_repository_1.default.nuevousuario(apiuser);
-        console.log('sdfdf');
-        console.log(apiuserrepository);
         return res.status(200).json({ "jwebtoken": apiuserrepository.jwebtoken, "fecha vencimiento": apiuserrepository.fechavencimiento });
     }
     catch (error) {
-        return res.send('error' + error);
+        return res.status(500).send('Error: ' + error);
     }
 });
 exports.register = register;
