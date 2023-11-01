@@ -103,7 +103,7 @@ rutas.get('/prueba', (req, res) => res.send('el gato volador'));
 /**
  * @swagger
  * /actualizarusuario:
- *  post:
+ *  put:
  *      summary: Actualizar fecha de vencimiento y token de un usuario
  *      tags: [User Api]
  *      requestBody:
@@ -147,16 +147,35 @@ rutas.get('/prueba', (req, res) => res.send('el gato volador'));
  *          500:
  *              description: Error en la accion contacte al administrador
  */
-rutas.post('/actualizarusuario', apiuser_controller_1.actualizarusuario);
+rutas.put('/actualizarusuario', apiuser_controller_1.actualizarusuario);
 /**
  * @swagger
- * /loggout:
+ * /loggin:
  *  post:
  *      summary: Hacer loggin en la api
  *      tags: [User Api]
+ *      requestBody:
+ *          required: true
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: Object
+ *                      properties:
+ *                          userapi:
+ *                              type: string
+ *                              description: codigo del producto
+ *                          contrasenna:
+ *                              type: string
+ *                              description: contraseña de conexion de user api
+ *                      required:
+ *                          - userapi
+ *                          - contrasenna
+ *                      example:
+ *                          userapi: pedro
+ *                          contrasenna: fsdsfs
  *      responses:
  *          200:
- *              description: Desconectar de la api
+ *              description: Acceso correcto de usuario
  *              content:
  *                  application/json:
  *                      schema:
@@ -169,11 +188,11 @@ rutas.post('/loggin', apiuser_controller_1.loggin);
  * @swagger
  * /loggout:
  *  post:
- *      summary: Hacer loggin en la api
+ *      summary: Eliminar token de acceso de un usuario solo accede administrador
  *      tags: [User Api]
  *      responses:
  *          200:
- *              description: Desconectar de la api
+ *              description: Desconectado de la api un usuario, se ha eliminado su token
  *              content:
  *                  application/json:
  *                      schema:
@@ -186,7 +205,7 @@ rutas.post('/loggout', apiuser_controller_1.loggout);
  * @swagger
  * /register:
  *  post:
- *      summary: Hacer loggin en la api
+ *      summary: Registrar un usuario nuevo en la api
  *      tags: [User Api]
  *      requestBody:
  *          required: true

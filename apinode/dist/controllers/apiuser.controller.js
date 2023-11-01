@@ -32,7 +32,17 @@ const actualizarusuario = (req, res) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.actualizarusuario = actualizarusuario;
 const loggin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return res;
+    if (!req.body.userapi || !req.body.contrasenna)
+        return res.status(400).send({ message: "El nombre de usuario y la contraseña son campos obligatorio" });
+    const user = yield apiuser_1.default.findOne({ where: { userapi: req.body.userapi } });
+    if (!user)
+        return res.status(401).send({ message: "El nombre de usuario o la contraseña pueden estar incorrecto" });
+    const correctpass = yield userapi_repository_1.default.validarcontrasenna(req.body.contrasenna, user.contrasenna);
+    if (!correctpass)
+        return res.status(401).send({ message: "El nombre de usuario o la contraseña pueden estar incorrecto" });
+    console.log(correctpass);
+    console.log(user);
+    return res.status(200).json({ "mensaje": 'Acceso correcto', "token": user.jwebtoken });
 });
 exports.loggin = loggin;
 const loggout = (req, res) => {

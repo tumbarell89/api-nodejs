@@ -21,7 +21,14 @@ export const actualizarusuario = async (req:Request, res:Response): Promise<Resp
 }
 
 export const loggin = async (req:Request, res:Response): Promise<Response> =>{
-    return res;
+    if(!req.body.userapi || !req.body.contrasenna) return res.status(400).send({message: "El nombre de usuario y la contraseña son campos obligatorio"});
+    const user = await Apiuser.findOne({where: {userapi: req.body.userapi}});
+    if(!user) return res.status(401).send({message: "El nombre de usuario o la contraseña pueden estar incorrecto"});
+    const correctpass: boolean = await UserApiIRepository.validarcontrasenna(req.body.contrasenna, user.contrasenna!);
+    if(!correctpass) return res.status(401).send({message: "El nombre de usuario o la contraseña pueden estar incorrecto"});
+    console.log(correctpass);
+    console.log(user);
+    return res.status(200).json({"mensaje": 'Acceso correcto',"token": user.jwebtoken });
 }
 
 export const loggout = (req:Request, res:Response)=>{

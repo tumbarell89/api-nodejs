@@ -17,6 +17,7 @@ class Database {
       password: "postgres",
       host: "localhost",
       dialect: "postgres",
+      logging: true,
       define: {
         timestamps: false
       },
