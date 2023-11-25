@@ -34,6 +34,7 @@ class UserApiIRepository implements IApiuserRepository{
             throw new Error (""+error);
         }  
     }
+
     async eliminarusuario(userapi: String): Promise<Number> {
         try {
             const filaeliminada = await Apiuser.destroy({ where: {userapi: userapi}});
@@ -42,6 +43,7 @@ class UserApiIRepository implements IApiuserRepository{
             throw new Error(""+error);
         }        
     }
+    
     async actualizarusuario(apiuser: Apiuser): Promise<Apiuser| null> {
         const {userapi} = apiuser;
         const user = Apiuser.findOne({where: {userapi: userapi}});
@@ -66,8 +68,7 @@ class UserApiIRepository implements IApiuserRepository{
         return await encriptador.hash(contrasenna, basecrypt);
     }
 
-    async validarcontrasenna (contrasenna: string, usercontrasenna: string):Promise<boolean> {
-        
+    async validarcontrasenna (contrasenna: string, usercontrasenna: string):Promise<boolean> {        
         return await encriptador.compare(contrasenna, usercontrasenna);
     }
     

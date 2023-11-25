@@ -26,7 +26,7 @@ class Database {
                 database: "apiportafolio",
                 username: "postgres",
                 password: "postgres",
-                host: "localhost",
+                host: "172.22.48.1",
                 dialect: "postgres",
                 logging: true,
                 define: {
